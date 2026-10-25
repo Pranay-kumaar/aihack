@@ -207,6 +207,19 @@ export default function AdminDashboard({ onBackToChat }: AdminDashboardProps) {
     }
   };
 
+  const handleResetKeys = async () => {
+    try {
+      const res = await fetch("http://localhost:8000/api/keys/reset-all", {
+        method: "POST",
+      });
+      const data = await res.json();
+      setKeyActionMsg("All Gemini API keys restored to active status.");
+      fetchAllData();
+    } catch (err) {
+      console.error("Error resetting keys:", err);
+    }
+  };
+
   const handleUpdateTicket = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!selectedTicket) return;
@@ -565,7 +578,14 @@ export default function AdminDashboard({ onBackToChat }: AdminDashboardProps) {
                 </p>
               </div>
 
-              <div className="flex items-center gap-3">
+              <div className="flex items-center gap-2">
+                <button
+                  onClick={handleResetKeys}
+                  className="flex items-center gap-1.5 rounded-xl border border-neutral-200 px-3 py-2 text-xs font-medium text-neutral-700 hover:bg-neutral-50 dark:border-neutral-800 dark:text-neutral-300 dark:hover:bg-neutral-800 transition"
+                >
+                  <RefreshCw className="h-3.5 w-3.5" />
+                  <span>Restore Key Pool</span>
+                </button>
                 <button
                   onClick={handleSimulateFailover}
                   className="flex items-center gap-2 rounded-xl bg-amber-500/10 border border-amber-500/20 px-3.5 py-2 text-xs font-semibold text-amber-700 hover:bg-amber-500/20 dark:text-amber-300 transition"

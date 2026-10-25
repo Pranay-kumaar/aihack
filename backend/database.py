@@ -167,6 +167,14 @@ def reset_key_rate_limit(key_id: int):
     conn.commit()
     conn.close()
 
+def reset_all_keys_rate_limits():
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    cursor.execute("UPDATE api_keys SET is_rate_limited = 0, rate_limit_reset_at = NULL")
+    conn.commit()
+    conn.close()
+    log_audit("KEYS_RESTORED", "All Gemini API keys manually restored to active status.")
+
 def record_key_success(key_id: int):
     conn = get_db_connection()
     cursor = conn.cursor()

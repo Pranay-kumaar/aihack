@@ -187,6 +187,12 @@ def simulate_failover():
     res = key_manager.simulate_manual_failover()
     return res
 
+@app.post("/api/keys/reset-all")
+def reset_all_keys_endpoint():
+    from database import reset_all_keys_rate_limits
+    reset_all_keys_rate_limits()
+    return {"success": True, "message": "All keys restored to active state."}
+
 # ----------------- Support Tickets (Student Handoff) -----------------
 
 @app.get("/api/tickets")
