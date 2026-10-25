@@ -149,8 +149,8 @@ def delete_document(doc_id: str):
 
 @app.get("/api/keys")
 def get_keys():
-    all_keys = list_api_keys()
     eligible = key_manager.get_eligible_keys()
+    all_keys = list_api_keys()
     active_idx = (key_manager.pointer % len(eligible)) if eligible else 0
     active_key_id = eligible[active_idx]["id"] if eligible else None
 
